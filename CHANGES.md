@@ -1,3 +1,95 @@
+## Version 10.1.0
+
+New themes:
+
+- *NNFX* and *NNFX-dark* by [Jim Mason][]
+- *lioshi* by [lioshi][]
+
+Parser Engine:
+
+- (parser) Now escapes quotes in text content when escaping HTML (#2564) [Josh Goebel][]
+- (parser) Adds `keywords.$pattern` key to grammar definitions (#2519) [Josh Goebel][]
+- (parser) Adds SHEBANG utility mode [Josh Goebel][]
+- (parser) Adds `registerAliases` method (#2540) [Taufik Nurrohman][]
+- (enh) Added `on:begin` callback for modes (#2261) [Josh Goebel][]
+- (enh) Added `on:end` callback for modes (#2261) [Josh Goebel][]
+- (enh) Added ability to programatically ignore begin and end matches (#2261) [Josh Goebel][]
+- (enh) Added `END_SAME_AS_BEGIN` mode to replace `endSameAsBegin` parser attribute (#2261) [Josh Goebel][]
+- (fix) `fixMarkup` would rarely destroy markup when `useBR` was enabled (#2532) [Josh Goebel][]
+
+Deprecations:
+
+- `htmlbars` grammar is now deprecated. Use `handlebars` instead. (#2344) [Nils Knappmeier][]
+- when using `highlightBlock` `result.re` deprecated. Use `result.relevance` instead. (#2552) [Josh Goebel][]
+- ditto for `result.second_best.re` => `result.second_best.relevance` (#2552)
+- `lexemes` is now deprecated in favor of `keywords.$pattern` key (#2519) [Josh Goebel][]
+- `endSameAsBegin` is now deprecated. (#2261) [Josh Goebel][]
+
+Language Improvements:
+
+- fix(groovy) strings are not allowed inside ternary clauses (#2217) [Josh Goebel][]
+- fix(typescript) add `readonly` keyword (#2562) [Martin (Lhoerion)][]
+- fix(javascript) fix regex inside parens after a non-regex (#2530) [Josh Goebel][]
+- enh(typescript) use identifier to match potential keywords, preventing false positivites (#2519) [Josh Goebel][]
+- enh(javascript) use identifier to match potential keywords, preventing false positivites (#2519) [Josh Goebel][]
+- [enh] Add `OPTIMIZE:` and `HACK:` to the labels highlighted inside comments [Josh Goebel][]
+- enh(typescript/javascript/coffeescript/livescript) derive ECMAscript keywords from a common foudation (#2518) [Josh Goebel][]
+- enh(typescript) add setInterval, setTimeout, clearInterval, clearTimeout (#2514) [Josh Goebel][]
+- enh(javascript) add setInterval, setTimeout, clearInterval, clearTimeout (#2514) [Vania Kucher][]
+- enh(cpp) add `pair`, `make_pair`, `priority_queue` as built-ins (#2538) [Hankun Lin][]
+- enh(cpp) recognize `priority_queue` `pair` as cpp containers (#2541) [Hankun Lin][]
+- fix(javascript) prevent `set` keyword conflicting with setTimeout, etc. (#2514) [Vania Kucher][]
+- fix(cpp) Fix highlighting of unterminated raw strings (#2261) [David Benjamin][]
+- fix(javascript) `=>` function with nested `()` in params now works (#2502) [Josh Goebel][]
+- fix(typescript) `=>` function with nested `()` in params now works (#2502) [Josh Goebel][]
+- fix(yaml) Fix tags to include non-word characters (#2486) [Peter Plantinga][]
+- fix(swift) `@objcMembers` was being partially highlighted (#2543) [Nick Randall][]
+- enh(dart) Add `late` and `required` keywords, the `Never` built-in type, and nullable built-in types (#2550) [Sam Rawlins][]
+- enh(erlang) Add underscore separators to numeric literals (#2554) [Sergey Prokhorov][]
+- enh(handlebars) Support for sub-expressions, path-expressions, hashes, block-parameters and literals (#2344) [Nils Knappmeier][]
+- enh(protobuf) Support multiline comments (#2597) [Pavel Evstigneev][]
+- fix(toml) Improve key parsing (#2595) [Antoine du Hamel][]
+
+[Josh Goebel]: https://github.com/yyyc514
+[Peter Plantinga]: https://github.com/pplantinga
+[David Benjamin]: https://github.com/davidben
+[Vania Kucher]: https://github.com/qWici
+[Hankun Lin]: https://github.com/Linhk1606
+[Nick Randall]: https://github.com/nicked
+[Sam Rawlins]: https://github.com/srawlins
+[Sergey Prokhorov]: https://github.com/seriyps
+[Nils Knappmeier]: https://github.com/nknapp
+[Martin (Lhoerion)]: https://github.com/Lhoerion
+[Jim Mason]: https://github.com/RocketMan
+[lioshi]: https://github.com/lioshi
+[Pavel Evstigneev]: https://github.com/Paxa
+[Antoine du Hamel]: https://github.com/aduh95
+
+
+## Version 10.0.2
+
+Brower build:
+
+- [Issue](https://github.com/highlightjs/highlight.js/issues/2505) (bug) Fix: Version 10 fails to load as CommonJS module. (#2511) [Josh Goebel][]
+- [Issue](https://github.com/highlightjs/highlight.js/issues/2505) (removal) AMD module loading support has been removed. (#2511) [Josh Goebel][]
+
+Parser Engine Changes:
+
+- [Issue](https://github.com/highlightjs/highlight.js/issues/2522) fix(parser) Fix freez issue with illegal 0 width matches (#2524) [Josh Goebel][]
+
+
+[Josh Goebel]: https://github.com/yyyc514
+
+
+## Version 10.0.1
+
+Parser Engine Changes:
+
+- (bug) Fix sublanguage with no relevance score (#2506) [Josh Goebel][]
+
+[Josh Goebel]: https://github.com/yyyc514
+
+
 ## Version 10.0.0
 
 New languages:

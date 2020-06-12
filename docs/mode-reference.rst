@@ -62,6 +62,19 @@ Regular expression starting a mode. For example a single quote for strings or tw
 If absent, ``begin`` defaults to a regexp that matches anything, so the mode starts immediately.
 
 
+on:begin
+^^^^^^^^^^^
+
+**type**: callback (matchData, response)
+
+This callback is triggered the moment a begin match is detected. ``matchData`` includes the typical regex match data; the full match, match groups, etc. The ``response`` object is used to tell the parser how it should handle the match. It can be also used to temporarily store data.
+
+- ``response.data`` - a simple object data store.  Can be used for building more complex rules where the end rule is dependent on the content of begin, etc.
+- ``response.ignoreMatch()`` - pretend as if this match never happened. The mode is not entered. Continues trying subsequent modes in the current mode's ``contains`` list
+
+For an example of usage see ``END_SAME_AS_BEGIN`` in ``modes.js``.
+
+
 end
 ^^^
 
@@ -77,6 +90,19 @@ matching any ``contains`` sub-modes).
 
 Sometimes a mode can end not by itself but implicitly with its containing (parent) mode.
 This is achieved with :ref:`endsWithParent <endsWithParent>` attribute.
+
+
+on:end
+^^^^^^^^^^^
+
+**type**: callback (matchData, response)
+
+This callback is triggered the moment an end match is detected. ``matchData`` includes the typical regex match data; the full match, match groups, etc. The ``response`` object is used to tell the parser how it should handle the match. It can also be used to retrieve data stored from a `begin` callback.
+
+- ``response.data`` - a simple object data store.  Can be used for building more complex rules where the end rule is dependent on the content of begin, etc.
+- ``response.ignoreMatch()`` - pretend as if this match never happened. The mode is not entered. Continues trying subsequent modes in the current mode's ``contains`` list
+
+For an example of usage see ``END_SAME_AS_BEGIN`` in ``modes.js``.
 
 
 beginKeywords
@@ -182,8 +208,12 @@ tell it to end the function definition after itself:
 
 .. _endSameAsBegin:
 
-endSameAsBegin
-^^^^^^^^^^^^^^
+endSameAsBegin (deprecated as of 10.1)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Deprecated:** *This attribute has been deprecated.*  You should instead use the
+``END_SAME_AS_BEGIN`` mode or use the ``on:begin`` and ``on:end`` attributes to
+build more complex paired matchers.
 
 **type**: boolean
 
@@ -208,16 +238,22 @@ In this case you can't simply specify the same regexp for ``begin`` and
 ``end`` (say, ``"\\$[a-z]\\$"``), but you can use ``begin: "\\$[a-z]\\$"``
 and ``endSameAsBegin: true``.
 
+
 .. _lexemes:
 
-lexemes
-^^^^^^^
+lexemes (now keywords.$pattern)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **type**: regexp
 
-A regular expression that extracts individual lexemes from language text to find :ref:`keywords <keywords>` among them.
-Default value is ``hljs.IDENT_RE`` which works for most languages.
+A regular expression that extracts individual "words" from the code to compare
+against :ref:`keywords <keywords>`. The default value is ``\w+`` which works for
+many languages.
 
+Note: It's now recommmended that you use ``keywords.$pattern`` instead of
+``lexemes``, as this makes it easier to keep your keyword pattern associated
+with your keywords themselves, particularly if your keyword configuration is a
+constant that you repeat multiple times within different modes of your grammar.
 
 .. _keywords:
 
@@ -228,8 +264,8 @@ keywords
 
 Keyword definition comes in two forms:
 
-* ``'for while if else weird_voodoo|10 ... '`` -- a string of space-separated keywords with an optional relevance over a pipe
-* ``{'keyword': ' ... ', 'literal': ' ... '}`` -- an object whose keys are names of different kinds of keywords and values are keyword definition strings in the first form
+* ``'for while if|0 else weird_voodoo|10 ... '`` -- a string of space-separated keywords with an optional relevance over a pipe
+* ``{keyword: ' ... ', literal: ' ... ', $pattern: /\w+/ }`` -- an object that describes multiple sets of keywords and the pattern used to find them
 
 For detailed explanation see :doc:`Language definition guide </language-guide>`.
 
